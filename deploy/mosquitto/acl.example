@@ -1,0 +1,7 @@
+user atma_device
+topic write atma/device/atma-dryer-001/telemetry
+topic read atma/device/atma-dryer-001/command/#
+
+user sensor_service
+topic read atma/device/atma-dryer-001/telemetry
+topic write atma/device/atma-dryer-001/command/#

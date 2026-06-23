@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth/**
+            - id: sensor-service
+              uri: lb://SENSOR-SERVICE
+              predicates:
+                - Path=/sensor/**
+            - id: notification-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/notifications/**
+
+server:
+  port: ${SERVER_PORT:8085}
+  forward-headers-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080,http://10.0.2.2:8085}
+  http:
+    connect-timeout: ${APP_HTTP_CONNECT_TIMEOUT:2s}
+    read-timeout: ${APP_HTTP_READ_TIMEOUT:3s}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,prometheus}
+  endpoint:
+    health:
+      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:when_authorized}
+  metrics:
+    tags:
+      application: ${spring.application.name}

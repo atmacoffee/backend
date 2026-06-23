@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: sensor-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+
+server:
+  port: ${SERVER_PORT:8082}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}}
+  instance:
+    prefer-ip-address: true
+
+mqtt:
+  broker:
+    url: ${MQTT_BROKER_URL:}
+  host: ${MQTT_HOST}
+  port: ${MQTT_PORT:1883}
+  use-tls: ${MQTT_USE_TLS:false}
+  tls:
+    ca-file: ${MQTT_TLS_CA_FILE:}
+  client:
+    id: ${MQTT_CLIENT_ID:sensor-service-client}
+  username: ${MQTT_USERNAME:}
+  password: ${MQTT_PASSWORD:}
+  topic: ${MQTT_SENSOR_TOPIC:atma/device/atma-dryer-001/telemetry}
+  command-client-id: ${MQTT_COMMAND_CLIENT_ID:${MQTT_CLIENT_ID:sensor-service-client}-command}
+  command-topic-prefix: ${MQTT_COMMAND_TOPIC_PREFIX:atma/device}
+
+device:
+  id: ${DEVICE_ID:atma-dryer-001}
+  offline-threshold-seconds: ${DEVICE_OFFLINE_THRESHOLD_SECONDS:60}
+
+app:
+  http:
+    connect-timeout: ${APP_HTTP_CONNECT_TIMEOUT:2s}
+    read-timeout: ${APP_HTTP_READ_TIMEOUT:3s}
+  internal:
+    service-token: ${INTERNAL_SERVICE_TOKEN}
+
+notification:
+  temperature-ideal-min: ${NOTIFICATION_TEMPERATURE_IDEAL_MIN:50.0}
+  temperature-ideal-max: ${NOTIFICATION_TEMPERATURE_IDEAL_MAX:55.0}
+  humidity-threshold: ${NOTIFICATION_HUMIDITY_THRESHOLD:60.0}
+  event-cooldown-seconds: ${NOTIFICATION_EVENT_COOLDOWN_SECONDS:300}
+  offline-check-delay-millis: ${NOTIFICATION_OFFLINE_CHECK_DELAY_MILLIS:30000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:health,info,prometheus}
+  endpoint:
+    health:
+      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:when_authorized}
+  metrics:
+    tags:
+      application: ${spring.application.name}

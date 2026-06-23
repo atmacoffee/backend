@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+mqtt:
+  host: ${MQTT_HOST}
+  username: ${MQTT_USERNAME}
+  password: ${MQTT_PASSWORD}
+
+app:
+  internal:
+    service-token: ${INTERNAL_SERVICE_TOKEN}

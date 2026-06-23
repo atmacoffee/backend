@@ -1,0 +1,7 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+jwt:
+  secret: ${JWT_SECRET}

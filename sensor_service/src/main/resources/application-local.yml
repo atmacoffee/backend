@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:atma_local}?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:${MYSQL_USER:atma_app}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${MYSQL_PASSWORD:atma_local_password}}
+  flyway:
+    table: ${SPRING_FLYWAY_TABLE:sensor_flyway_schema_history}
+    baseline-on-migrate: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://eureka-server:8761/eureka}
+
+mqtt:
+  host: ${MQTT_HOST:mosquitto}
+  username: ${MQTT_USERNAME:sensor_service}
+  password: ${MQTT_PASSWORD:atma_local_mqtt_password}
+  topic: ${MQTT_SENSOR_TOPIC:atma/device/atma-dryer-001/telemetry}
+  command-topic-prefix: ${MQTT_COMMAND_TOPIC_PREFIX:atma/device}
+
+app:
+  internal:
+    service-token: ${INTERNAL_SERVICE_TOKEN:local-internal-service-token}
+
+management:
+  endpoint:
+    health:
+      show-details: always
