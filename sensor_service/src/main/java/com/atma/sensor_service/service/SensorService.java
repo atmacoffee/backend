@@ -203,6 +203,9 @@ public class SensorService {
         state.setHeater(request.getHeater() != null && request.getHeater() == 1);
         state.setKipas(request.getKipas() != null && request.getKipas() == 1);
         state.setExhaust(Boolean.TRUE.equals(request.getExhaust()));
+        if (request.getMode() != null) {
+            state.setMode(request.getMode());
+        }
         actuatorStateRepository.save(state);
     }
 

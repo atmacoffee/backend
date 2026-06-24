@@ -1,5 +1,7 @@
 package com.atma.sensor_service.dto;
 
+import com.atma.sensor_service.entity.DeviceMode;
+
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -29,6 +31,7 @@ public class SensorRequest {
     private Integer kipas;
 
     private Boolean exhaust = false;
+    private DeviceMode mode;
 
     public Double getSuhu() { return suhu; }
     public void setSuhu(Double suhu) { this.suhu = suhu; }
@@ -40,4 +43,6 @@ public class SensorRequest {
     public void setKipas(Integer kipas) { this.kipas = kipas; }
     public Boolean getExhaust() { return exhaust; }
     public void setExhaust(Boolean exhaust) { this.exhaust = exhaust; }
+    public DeviceMode getMode() { return mode; }
+    public void setMode(DeviceMode mode) { this.mode = mode; }
 }
