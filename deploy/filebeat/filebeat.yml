@@ -1,0 +1,40 @@
+filebeat.inputs:
+  - type: container
+    paths:
+      - /var/lib/docker/containers/*/*.log
+    processors:
+      - add_docker_metadata:
+          host: "unix:///var/run/docker.sock"
+      - decode_json_fields:
+          fields: ["message"]
+          target: ""
+          overwrite_keys: true
+          when:
+            regexp:
+              message: '^\{'
+
+processors:
+  - drop_event:
+      when:
+        not:
+          or:
+            - equals:
+                container.name: "atma_api_gateway"
+            - equals:
+                container.name: "atma_auth_service"
+            - equals:
+                container.name: "atma_sensor_service"
+            - equals:
+                container.name: "atma_eureka_server"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:${ELASTICSEARCH_PORT}"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+  index: "atma-logs-%{+yyyy.MM.dd}"
+
+setup.ilm.enabled: false
+setup.template.name: "atma-logs"
+setup.template.pattern: "atma-logs-*"
+
+logging.level: warning
